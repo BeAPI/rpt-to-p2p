@@ -16,7 +16,7 @@ $domain 		= ( isset( $argv[1] ) ) ? $argv[1] : '';
 $relation 		= ( isset( $argv[2] ) ) ? $argv[2] : '';
 $post_type1 	= ( isset( $argv[3] ) ) ? $argv[3] : '';
 $post_type2 	= ( isset( $argv[4] ) ) ? $argv[4] : '';
-$delete_table 	= ( isset( $argv[5] ) && 'delete' === $argv[5] ) ? true : false;7
+$delete_table 	= ( isset( $argv[5] ) && 'delete' === $argv[5] ) ? true : false;
 
 // Domain not set ?
 if( empty($domain) ) {
