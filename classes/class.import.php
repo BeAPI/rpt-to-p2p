@@ -27,11 +27,12 @@ class RPT_to_P2P {
 			die( 'P2P is not installed or it\'s there but not activated !' );
 		}
 
-		// Transfer data
-		$this->transfer_data( $this->relation, $post_type1, $post_type2 );
 		
 		if ( $this->delete === true ) {
 			$this->delete_rpt_table();
+		} else {
+			// Transfer data
+			$this->transfer_data( $this->relation, $post_type1, $post_type2 );
 		}
 	}
 
