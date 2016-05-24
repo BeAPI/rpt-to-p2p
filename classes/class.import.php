@@ -105,28 +105,42 @@ class RPT_to_P2P {
 	 */
 	public function transfer_data( $relation, $post_type1, $post_type2 ) {
 
+				printf( 'START ON RELATION : %s', $relation );
+		echo PHP_EOL;
+
 		$have_rpt_data = $this->has_rpt_data();
 		if ( empty( $have_rpt_data ) ) {
-			die( 'There is no RPT data to transfer !' );
+			die( 'There is no RPT data to transfer between ' . $post_type1 . ' and ' . $post_type2 );
 		}
 
 		$data_to_transfert = $this->get_objects_with_relations( $post_type1, $post_type2 );
-		if( empty( $data_to_transfert ) ) {
+		if ( empty( $data_to_transfert ) ) {
 			die( 'There is no match !' );
 		}
 
-		$i = 0;
+		$i     = 0;
+		$total = count( $data_to_transfert );
 		foreach ( (array) $data_to_transfert as $data ) {
-			$i++;
-
 			/**
 			 * @link https://github.com/scribu/wp-posts-to-posts/wiki/Creating-connections-programmatically
 			 * safe to use => 'prevent_duplicates' and 'cardinality'.
 			 */
-			p2p_type( $relation )->connect( $data->object_id_1, $data->object_id_2 );
+			$connection_id = p2p_type( $relation )->connect( $data->object_id_1, $data->object_id_2 );
+			if ( is_wp_error( $connection_id ) ) {
+				printf( 'Connection error between %d and %d', $data->object_id_1, $data->object_id_2 );
+				echo PHP_EOL;
+			} else {
+				$i ++;
+				printf( 'Connection success between %d and %d', $data->object_id_1, $data->object_id_2 );
+				echo PHP_EOL;
+			}
 		}
 
-		printf('%d RPT links imported into P2P with success !', $i);
+		printf( '%d / %d RPT links imported into P2P with success', $i, $total );
+		echo PHP_EOL;
+
+		printf( 'END OFF RELATION : %s', $relation );
+		echo PHP_EOL;
 	}
 
 	/**
